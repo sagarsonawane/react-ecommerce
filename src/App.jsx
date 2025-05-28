@@ -12,6 +12,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Login from "./pages/Login";
 import { logout } from "./redux/userSlice";
 import RequireAuth from "./components/RequireAuth";
+import ThankYou from "./pages/ThankYou";
 
 function App() {
 
@@ -112,6 +113,7 @@ function App() {
             </RequireAuth>}
           />
           <Route path="/login" element={<Login />} />
+          <Route path="/thank-you" element={<ThankYou />} />
         </Routes>
       </main>
     </div>

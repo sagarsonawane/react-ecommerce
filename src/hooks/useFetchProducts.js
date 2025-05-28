@@ -1,7 +1,7 @@
 //custom hook for fetching products from a JSON file
 import { useState, useEffect } from "react";
 
-const useFetchProducts = (url = "/products.json") => {
+const useFetchProducts = (url) => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -12,6 +12,8 @@ const useFetchProducts = (url = "/products.json") => {
                 if (!res.ok) {
                     throw new Error("Network response was not ok");
                 }
+                alert("Products fetched successfully from " + url);
+                console.log("Products fetched successfully");
                 return res.json();
             })
             .then(data => {

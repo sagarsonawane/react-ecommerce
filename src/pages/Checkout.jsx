@@ -1,6 +1,8 @@
 //This is a chck out page which will 
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 // import useLocalStorage from "../hooks/useLocalStorage";
 
 function Checkout() {
@@ -11,8 +13,10 @@ function Checkout() {
         address: ""
     });
 
+    const navigate = useNavigate();
     // const [submitted, setSumbmitted] = useState(false);
     //const [shippingInfo, setShippingInfo] = useLocalStorage("shippingInfo", {});
+    const cartItems = useSelector((state) => state.cart); // Get cart items from Redux
 
     const isValidEmail = (email) => /\S+@\S+\.\S+/.test(email);
     const isValidPhone = (phone) => /^\d{10}$/.test(phone);
@@ -31,19 +35,29 @@ function Checkout() {
             return;
         }
 
-        if(!isValidEmail(form.email)) {
+        if (!isValidEmail(form.email)) {
             alert("❌ Please enter a valid email address");
             return;
         }
 
-        if(!isValidPhone(form.phone)) {
+        if (!isValidPhone(form.phone)) {
             alert("❌ Please enter a valid phone number. It should be 10 digits long.");
             return;
         }
 
+        const orderData = {
+            customerName: form.name,
+            email: form.email,
+            phone: form.phone,
+            address: form.address,
+            items: cartItems
+        };
+
+        navigate("/order-summary", { state: { order: orderData } });
+
         console.log("Form submitted:", form);
-        localStorage.setItem("shippingInfo", JSON.stringify(form));
-        window.location.href = "/order-summary";
+        //localStorage.setItem("shippingInfo", JSON.stringify(form));
+        //window.location.href = "/order-summary";
         // You can also use a state management library like Redux or Context API to manage the form data
         // and pass it to the order summary page.
     };
@@ -53,9 +67,9 @@ function Checkout() {
             <h2>Checkout</h2>
             <form onSubmit={handleSubmit}>
                 <input name="name" placeholder="Full Name" value={form.name} onChange={handleChange} style={{ display: "block", marginBottom: "1rem", width: "100%" }} />
-                <input name="email" type="email" placeholder="Email" value={form.email} onChange={handleChange} style={{ display: "block", marginBottom: "1rem", width: "100%" }}/>
-                <input name="phone" placeholder="Phone" value={form.phone} onChange={handleChange} style={{ display: "block", marginBottom: "1rem", width: "100%" }}/>
-                <input name="address" placeholder="Address" value={form.address} onChange={handleChange} style={{ display: "block", marginBottom: "1rem", width: "100%" }}/>
+                <input name="email" type="email" placeholder="Email" value={form.email} onChange={handleChange} style={{ display: "block", marginBottom: "1rem", width: "100%" }} />
+                <input name="phone" placeholder="Phone" value={form.phone} onChange={handleChange} style={{ display: "block", marginBottom: "1rem", width: "100%" }} />
+                <input name="address" placeholder="Address" value={form.address} onChange={handleChange} style={{ display: "block", marginBottom: "1rem", width: "100%" }} />
                 <button type="submit">Place Order</button>
             </form>
         </div>

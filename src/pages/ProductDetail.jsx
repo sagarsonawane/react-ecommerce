@@ -6,7 +6,7 @@ import { addToCart } from "../redux/cartSlice";
 
 function ProductDetail() {
     const { id } = useParams();
-    const { products, loading, error } = useFetchProducts("/products.json");
+    const { products, loading, error } = useFetchProducts("http://localhost:5231/api/products");
     //const { addToCart } = useCart();
     //const  {dispatch} = useCart();
     const dispatch = useDispatch();
