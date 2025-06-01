@@ -1,15 +1,22 @@
 import { useParams } from "react-router-dom";
 import useFetchProducts from "../hooks/useFetchProducts";
 // import { useCart } from "../context/CartContext";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../redux/cartSlice";
+import { fetchProductById } from "../redux/productSlice";
+import { useEffect } from "react";
 
 function ProductDetail() {
     const { id } = useParams();
-    const { products, loading, error } = useFetchProducts("http://localhost:5231/api/products");
+    const {selectedProduct, loading, error } = useSelector(state => state.products);
+    //const { products, loading, error } = useFetchProducts("http://localhost:5231/api/products");
     //const { addToCart } = useCart();
     //const  {dispatch} = useCart();
     const dispatch = useDispatch();
+
+    useEffect(()=>{
+        dispatch(fetchProductById(id));
+    }, [dispatch, id]);
 
     const handleAddToCart = (product) => {
         console.log('Adding to cart:', product);
@@ -20,7 +27,7 @@ function ProductDetail() {
         }));
     };
 
-    const product = products.find((p) => p.id.toString() === id);
+    //const product = products.find((p) => p.id.toString() === id);
 
     if (loading) {
         return <p>Loading product...</p>;
@@ -30,17 +37,16 @@ function ProductDetail() {
         return <p style={{ color: "red" }}>Error fetching product: {error.message}</p>;
     }
 
-    if (!product) {
+    if (!selectedProduct) {
         return <p>Product not found</p>;
     }
 
-
     return (
         <div style={{ padding: "2rem" }}>
-            <h2>{product.name}</h2>
-            <p>Price: ₹{product.price}</p>
-            <p>Description: This is a fantastic product!</p>
-            <button onClick={() => handleAddToCart(product)}>Add to Cart</button>
+            <h2>{selectedProduct.name}</h2>
+            <p>Price: ₹{selectedProduct.price}</p>
+            <p>Description: {selectedProduct.description}</p>
+            <button onClick={() => dispatch(addToCart(selectedProduct))}>Add to Cart</button>
         </div>
     );
 }

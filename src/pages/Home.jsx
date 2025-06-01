@@ -1,8 +1,11 @@
+import { useEffect } from 'react';
 // src/pages/Home.jsx
 import CartContext from "../context/CartContext";
 import ProductCard from "../components/ProductCard";
 //import { useEffect, useState } from "react";
-import useFetchProducts from "../hooks/useFetchProducts";
+//import useFetchProducts from "../hooks/useFetchProducts";
+import { fetchProducts } from "../redux/productSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const Home = () => {
 
@@ -10,7 +13,16 @@ const Home = () => {
     //const [loading, setLoading] = useState(true);
     //const { addToCart } = useCart();
 
-    const {products, loading, error } = useFetchProducts("http://localhost:5231/api/products");
+    const dispatch = useDispatch();
+    const { items: products, loading, error } = useSelector((state) => state.products);
+
+    useEffect(() => {
+        dispatch(fetchProducts());
+    }, [dispatch]);
+    //const {products, loading, error } = useFetchProducts("http://localhost:5231/api/products");
+
+    if(loading) return <p>Loading Products...</p>; 
+    if(error) return <p>Error: {error}</p>;
 
 return (
     <>
