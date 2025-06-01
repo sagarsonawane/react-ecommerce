@@ -2,6 +2,7 @@ import { login } from "../redux/userSlice";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -29,6 +30,17 @@ const Login = () => {
         };
         dispatch(login(userData));
 
+        toast.success("Logged in successfully", {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            onClose: () => navigate(from, { replace: true })
+        });
         navigate(from, { replace: true }); // Redirect to home page after login // or navigate("/checkout") if coming from there
     }
 

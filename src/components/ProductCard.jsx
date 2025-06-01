@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '../redux/cartSlice';
+import { toast } from 'react-toastify';
 
 function ProductCard({name, price, id}) {
     //const { dispatch } = useCart();
@@ -18,7 +19,12 @@ function ProductCard({name, price, id}) {
 
     const dispatch = useDispatch();
     const handleAddToCart = () => {
-        console.log('Adding to cart:', { id, name, price });
+        //console.log('Adding to cart:', { id, name, price });
+        toast.success("Added to cart", {
+            position: "top-right",
+            theme:"colored",
+            transition: "Bounce",
+        });
         dispatch(addToCart({ id, name, price }));
     };
 

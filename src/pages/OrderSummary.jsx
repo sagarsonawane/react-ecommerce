@@ -4,6 +4,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { clearCart } from "../redux/cartSlice";
 import { useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function OrderSummary() {
 
@@ -26,7 +27,19 @@ function OrderSummary() {
 
             const result = await response.json();
             if (response.ok) {
-                alert("Order placed successfully!");
+                //alert("Order placed successfully!");
+                toast.success("Order placed successfully!",
+                    {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                    }
+                );
                 // Clear cart and shipping info
                 dispatch(clearCart());
                 navigate("/thank-you");

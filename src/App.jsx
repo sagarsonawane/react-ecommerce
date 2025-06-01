@@ -13,6 +13,8 @@ import Login from "./pages/Login";
 import { logout } from "./redux/userSlice";
 import RequireAuth from "./components/RequireAuth";
 import ThankYou from "./pages/ThankYou";
+import {ToastContainer} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
 
@@ -115,6 +117,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/thank-you" element={<ThankYou />} />
         </Routes>
+        <ToastContainer position="top-right" autoClose={3000}/>
       </main>
     </div>
   );
