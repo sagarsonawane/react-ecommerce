@@ -1,39 +1,28 @@
 import { useParams } from "react-router-dom";
-import useFetchProducts from "../hooks/useFetchProducts";
-// import { useCart } from "../context/CartContext";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../redux/cartSlice";
-import { fetchProductById } from "../redux/productSlice";
-import { useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { fetchProductById } from "../api/product";
 
 function ProductDetail() {
     const { id } = useParams();
-    const {selectedProduct, loading, error } = useSelector(state => state.products);
-    //const { products, loading, error } = useFetchProducts("http://localhost:5231/api/products");
-    //const { addToCart } = useCart();
-    //const  {dispatch} = useCart();
     const dispatch = useDispatch();
+    
+    // const fetchProductById = async (id) => {
+    //     const response = await axios.get(`http://localhost:5231/api/products/${id}`);
+    //     return response.data;
+    // };
 
-    useEffect(()=>{
-        dispatch(fetchProductById(id));
-    }, [dispatch, id]);
-
-    const handleAddToCart = (product) => {
-        console.log('Adding to cart:', product);
-        dispatch(addToCart({
-            id: product.id,
-            name: product.name,
-            price: product.price
-        }));
-    };
-
-    //const product = products.find((p) => p.id.toString() === id);
+    const {data: selectedProduct, isLoading: loading, error} = useQuery({
+        queryKey: ["product", id],
+        queryFn: ()=> fetchProductById(id),
+    });
 
     if (loading) {
         return <p>Loading product...</p>;
     }
 
-    if(error) {
+    if (error) {
         return <p style={{ color: "red" }}>Error fetching product: {error.message}</p>;
     }
 

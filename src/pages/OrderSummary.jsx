@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { clearCart } from "../redux/cartSlice";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { submitOrder } from "../api/orders";
 
 function OrderSummary() {
 
@@ -19,42 +20,40 @@ function OrderSummary() {
 
     const confirmOrder = async () => {
         try {
-            const response = await fetch("http://localhost:5231/api/orders", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(order)
-            });
+            // const response = await fetch("http://localhost:5231/api/orders", {
+            //     method: "POST",
+            //     headers: {"Content-Type": "application/json"},
+            //     body: JSON.stringify(order)
+            // });
 
-            const result = await response.json();
-            if (response.ok) {
-                //alert("Order placed successfully!");
-                toast.success("Order placed successfully!",
-                    {
-                        position: "top-right",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                    }
-                );
-                // Clear cart and shipping info
-                dispatch(clearCart());
-                navigate("/thank-you");
-            }
-            else {
-                alert("Failed to place order: " + result.message);
-            }
+            // const result = await response.json();
+            const result = await submitOrder(order);
+
+            //alert("Order placed successfully!");
+            toast.success("Order placed successfully!",
+                {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                }
+            );
+            // Clear cart and shipping info
+            dispatch(clearCart());
+            navigate("/thank-you");
         }
         catch (error) {
             console.error("Error placing order:", error);
-            alert("An error occurred while placing the order. Please try again.");
+            const message = error.response?.data?.message || "An error occurred while placing the order.";
+            alert("Failed to place order: " + message);
         }
     };
 
-    
+
     // const handleConfirmOrder = () => {
     //     console.log("Order confirmed with the following details:");
     //     // Future: Send data to server
@@ -77,7 +76,7 @@ function OrderSummary() {
     //     window.location.href = "/";
     // };
 
-    if(!order) {
+    if (!order) {
         return <p>Loading...</p>;
     }
 

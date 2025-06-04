@@ -7,13 +7,19 @@ import App from './App.jsx'
 import { CartProvider } from './context/CartContext.jsx'
 import { Provider } from 'react-redux'
 import { store } from './redux/store.js'
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
+const queryClient = new QueryClient();
 
 createRoot(document.getElementById('root')).render(
-  <BrowserRouter>
-    <StrictMode>
+  <StrictMode>
+    <QueryClientProvider client={queryClient}>
       <Provider store={store}>
-        <App />
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
       </Provider>
-    </StrictMode>
-  </BrowserRouter>
+    </QueryClientProvider>
+  </StrictMode>
 );
