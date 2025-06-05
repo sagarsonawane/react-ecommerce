@@ -81,26 +81,31 @@ function OrderSummary() {
     }
 
     return (
-        <div>
-            <h2>Order Summary</h2>
-            <h3>Shipping Information</h3>
-            <p><strong>Name:</strong> {order.name}</p>
-            <p><strong>Email:</strong> {order.email}</p>
-            <p><strong>Phone:</strong> {order.phone}</p>
-            <p><strong>Address:</strong> {order.address}</p>
+        <div className="max-w-3xl mx-auto px-4 py-8 bg-white rounded-lg shadow">
+            <h2 className="text-2xl font-bold mb-6 text-center">Order Summary</h2>
+            <h3 className="text-2xl font-bold mb-6 text-center">Shipping Information</h3>
 
-            <h3>Cart Items</h3>
-            <ul>
+            <div className="mb-4 space-y-2 text-gray-800">
+                <p><strong>Name:</strong> {order.name}</p>
+                <p><strong>Email:</strong> {order.email}</p>
+                <p><strong>Phone:</strong> {order.phone}</p>
+                <p><strong>Address:</strong> {order.address}</p>
+            </div>
+
+            <h3 className="text-lg font-semibold mb-2 mt-4">Cart Items</h3>
+            <ul className="mb-6 space-y-2">
                 {order.items.map((item) => (
-                    <li key={item.id}>
-                        {item.name} - ₹{item.price} x {item.quantity} = ₹{item.price * item.quantity}
+                    <li key={item.id} className="flex justify-between border-b py-1">
+                        <span>{item.name}</span>
+                        <span className="text-gray-700">₹{item.price} x {item.quantity} = ₹{item.price * item.quantity}</span>
                     </li>
                 ))}
             </ul>
 
-            <h3>Total Amount: ₹{total}</h3>
+            <h3 className="text-lg font-semibold mb-2 mt-4">Total Amount: ₹{total}</h3>
 
-            <button onClick={confirmOrder}>✅ Confirm Order</button>
+            <button onClick={confirmOrder}
+            className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">✅ Confirm Order</button>
         </div>
     );
 }

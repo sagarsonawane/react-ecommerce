@@ -13,26 +13,28 @@ const Home = () => {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <>
-      <h2>Products</h2>
+    <div className="max-w-7xl mx-auto px-4">
+      <h2 className="text-3xl font-bold mb-6 text-center">Products</h2>
       {loading ? (
         <p>Loading products...</p>
       ) : error ? (
         <p style={{ color: "red" }}>
           Error fetching products: {error.message}</p>
       ) : (
-        <div className="product-list">
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {products.map((product) => (
-            <ProductCard
-              key={product.id}
-              id={product.id}
-              name={product.name}
-              price={product.price}
-            />
+            <div key={product.id} className="h-full">
+              <ProductCard
+                key={product.id}
+                id={product.id}
+                name={product.name}
+                price={product.price}
+              />
+            </div>
           ))}
         </div>
       )}
-    </>
+    </div>
   );
 };
 
