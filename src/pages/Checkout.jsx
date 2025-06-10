@@ -81,7 +81,7 @@ function Checkout() {
         <div className="max-w-xl mx-auto px-4 py-8">
             <div className="bg-white shadow-md rounded-lg p-6">
                 <h2 className="text-2xl font-bold mb-6 text-center">Checkout</h2>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} space-y-6>
                     <input name="name" placeholder="Full Name" value={form.name}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -93,7 +93,6 @@ function Checkout() {
 
                     <input name="email" type="email" placeholder="Email" value={form.email}
                         onChange={handleChange} onBlur={handleBlur}
-                        style={{ display: "block", marginBottom: "1rem", width: "100%" }}
                         required
                         className={`w-full px-4 py-2 border ${touched.name && errors.name ? "border-red-500" : "border-gray-300"
                             } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`} />
@@ -102,7 +101,6 @@ function Checkout() {
 
                     <input name="phone" placeholder="Phone" value={form.phone}
                         onChange={handleChange} onBlur={handleBlur}
-                        style={{ display: "block", marginBottom: "1rem", width: "100%" }}
                         pattern="[6-9][0-9]{9}" required
                         className={`w-full px-4 py-2 border ${touched.name && errors.name ? "border-red-500" : "border-gray-300"
                             } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`} />
@@ -111,9 +109,8 @@ function Checkout() {
 
                     <input name="address" placeholder="Address" value={form.address}
                         onChange={handleChange} onBlur={handleBlur}
-                        style={{ display: "block", marginBottom: "1rem", width: "100%" }}
                         required
-                        className={`w-full px-4 py-2 border ${touched.name && errors.name ? "border-red-500" : "border-gray-300"
+                        className={`w-full px-4 py-2 border min-h-[80px] text-wrap ${touched.name && errors.name ? "border-red-500" : "border-gray-300"
                             } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`} />
 
                     {touched.address && errors.address && (<p className="text-red-500 text-sm mt-1">Address is required</p>)}
